@@ -48,6 +48,13 @@ flask run --reload
 
 The `--reload` flag will detect file changes and restart the server automatically.
 
+
+To run the Test, execute:
+
+```bash
+python test_app.py
+```
+
 ## Tasks
 
 ### Setup Auth0
@@ -60,26 +67,26 @@ The `--reload` flag will detect file changes and restart the server automaticall
         - Enable RBAC
         - Enable Add Permissions in the Access Token
 5. Create new API permissions:
-    - `get:drinks-detail`
-    - `post:drinks`
-    - `patch:drinks`
-    - `delete:drinks`
+    - `get:movies`
+    - `get:actors`
+    - `post:movie`
+    - `post:actor`
+    - `update:movie`
+    - `update:actor`
+    - `delete:movie`
+    - `delete:actor`
+
 6. Create new roles for:
-    - Barista
-        - can `get:drinks-detail`
-    - Manager
+    - Casting Assistant
+        - can `get:movies` & `get:actors`
+    - Casting Director
+        - can perform all actions Except: `post:movie` & `delete:movie`
+    - Executive Producer
         - can perform all actions
-7. Test your endpoints with [Postman](https://getpostman.com). 
-    - Register 2 users - assign the Barista role to one and Manager role to the other.
+        
+7. Test the endpoints with [Postman](https://getpostman.com). 
+    - Register 3 users - assign one for each role.
     - Sign into each account and make note of the JWT.
-    - Import the postman collection `./starter_code/backend/udacity-fsnd-udaspicelatte.postman_collection.json`
-    - Right-clicking the collection folder for barista and manager, navigate to the authorization tab, and including the JWT in the token field (you should have noted these JWTs).
-    - Run the collection and correct any errors.
-    - Export the collection overwriting the one we've included so that we have your proper JWTs during review!
+    - Import the postman collection `./udacity-fsnd-capstone.postman_collection.json`
+    - Run the collection.
 
-### Implement The Server
-
-There are `@TODO` comments throughout the `./backend/src`. We recommend tackling the files in order and from top to bottom:
-
-1. `./src/auth/auth.py`
-2. `./src/api.py`
