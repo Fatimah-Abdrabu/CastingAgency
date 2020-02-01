@@ -95,7 +95,7 @@ python test_app.py
     - Sign into each account and make note of the JWT.
     - Import the postman collection `./udacity-fsnd-capstone.postman_collection.json`
     - Run the collection.
-    - You could place the localURL with the Heroku URL where the application is hosted:
+    - You could replace the localURL with the Heroku URL where the application is hosted:
       `https://fsdnd-capstone.herokuapp.com`
       
 
