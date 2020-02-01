@@ -84,7 +84,6 @@ def create_app(test_config=None, database_name=database_name):
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('update:movie')
     def update_movie(payload, movie_id):
-
         try:
             d = Movie.query.filter(Movie.id == movie_id)
             movie = d.one_or_none()
@@ -98,8 +97,8 @@ def create_app(test_config=None, database_name=database_name):
                 movie.title = body.get('title')
 
             if 'release_date' in body:
-                movie.release_date = datetime.strptime
-                (body.get('release_date'), '%Y-%m-%d')
+                movie.release_date = datetime.strptime(
+                                     body.get('release_date'), '%Y-%m-%d')
 
             movie.update()
 

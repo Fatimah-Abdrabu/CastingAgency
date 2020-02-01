@@ -46,7 +46,7 @@ class Movie(db.Model):
     # String Title
     title = Column(String(80), nullable=False)
     # DateTime Release_Date
-    release_date = Column(DateTime(), default=datetime.datetime.utcnow)
+    release_date = Column(DateTime(), nullable=False)
     # To access the movie list of actors
     actors = db.relationship("MovieActor", back_populates="movie")
 
