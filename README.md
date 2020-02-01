@@ -1,4 +1,4 @@
-# Coffee Shop Backend
+# The Capstone project of Udacity Full-Stack-Developer nanodegree (Backend Only)
 
 ## Getting Started
 
