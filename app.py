@@ -24,6 +24,15 @@ def create_app(test_config=None, database_name=database_name):
         response.headers.add('Access-Control-Allow-Methods',
                              'GET,PUT,POST,DELETE')
         return response
+    
+    # Home greeting test
+    
+    @app.route('/')
+    def get_greeting():
+        excited = os.environ['EXCITED']
+        greeting = "Hello" 
+        if excited == 'true': greeting = greeting + "!!!!!"
+        return greeting
 
     '''
     @TODO uncomment the following line to initialize the datbase
