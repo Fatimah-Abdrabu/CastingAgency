@@ -1,4 +1,10 @@
-# The Capstone project of Udacity Full-Stack-Developer nanodegree (Backend Only)
+# The Capstone project of Udacity FSDN (Backend Only)
+
+
+## Casting Agency - Final Project
+
+The Casting Agency models a company that is responsible for creating movies and managing and assigning actors to those movies. You are an Executive Producer within the company and are creating a system to simplify and streamline your process.
+
 
 ## Getting Started
 
