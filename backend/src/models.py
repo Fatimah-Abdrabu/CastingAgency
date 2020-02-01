@@ -1,4 +1,5 @@
-import os, datetime
+import os
+import datetime
 from sqlalchemy import Column, String, Integer, DateTime
 from flask_sqlalchemy import SQLAlchemy
 import json
@@ -14,8 +15,8 @@ setup_db(app)
 
 
 def setup_db(app, database_name):
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///{}".format(os.path.join(project_dir,
-                                      database_name))
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///{}".format(os.path.join(
+        project_dir, database_name))
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
@@ -45,7 +46,7 @@ class Movie(db.Model):
     # String Title
     title = Column(String(80), nullable=False)
     # DateTime Release_Date
-    release_date = Column(DateTime(), nullable=False, default=datetime.datetime.utcnow)
+    release_date = Column(DateTime(), default=datetime.datetime.utcnow)
     # To access the movie list of actors
     actors = db.relationship("MovieActor", back_populates="movie")
 
@@ -59,7 +60,7 @@ class Movie(db.Model):
             'title': self.title,
             'release_date': self.release_date
         }
-        
+
     '''
     insert()
         inserts a new model into a database
@@ -116,7 +117,7 @@ class Actor(db.Model):
             'age': self.age,
             'gender': self.gender,
         }
-        
+
     '''
     insert()
         inserts a new model into a database
@@ -142,11 +143,10 @@ class Actor(db.Model):
 
     def __repr__(self):
         return json.dumps(self.format())
-    
 
 '''
 MovieActor
-a persistent MovieActor entity, represnt the many-to-many relationship 
+a persistent MovieActor entity, represnt the many-to-many relationship
 between the Movie & the Actor
 '''
 
@@ -169,7 +169,7 @@ class MovieActor(db.Model):
             'movie_id': self.movie_id,
             'actor_id': self.actor_id
         }
-        
+
     '''
     insert()
         inserts a new model into a database

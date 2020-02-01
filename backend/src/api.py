@@ -4,28 +4,26 @@ from sqlalchemy import exc
 import json
 from flask_cors import CORS
 from datetime import datetime
-
 from models import db_drop_and_create_all, setup_db, Movie, Actor, MovieActor
 from auth import AuthError, requires_auth
 
-database_name= "database.db"
+database_name = "database.db"
 
-def create_app(test_config=None,database_name=database_name):
+
+def create_app(test_config=None, database_name=database_name):
     app = Flask(__name__)
     setup_db(app, database_name)
     CORS(app, resources={r"*": {'origins': r"*"}})
 
     # CORS Headers
 
-
     @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Headers',
-                            'Content-Type,Authorization,true')
+                             'Content-Type,Authorization,true')
         response.headers.add('Access-Control-Allow-Methods',
-                            'GET,PUT,POST,DELETE')
+                             'GET,PUT,POST,DELETE')
         return response
-
 
     '''
     @TODO uncomment the following line to initialize the datbase
@@ -34,11 +32,10 @@ def create_app(test_config=None,database_name=database_name):
     '''
     # db_drop_and_create_all()
 
-    # ROUTES 
+    # ROUTES
     '''
         GET /movies
     '''
-
 
     @app.route('/movies', methods=['GET'])
     @requires_auth('get:movies')
@@ -53,11 +50,9 @@ def create_app(test_config=None,database_name=database_name):
         except:
             abort(422)
 
-
     '''
         POST /movies
     '''
-
 
     @app.route('/movies', methods=['POST'])
     @requires_auth('post:movie')
@@ -74,7 +69,8 @@ def create_app(test_config=None,database_name=database_name):
                 abort(400)
 
             movie = Movie(title=movie_title,
-                        release_date=datetime.strptime(movie_release_date,'%Y-%m-%d'))
+                          release_date=datetime.strptime
+                          (movie_release_date, '%Y-%m-%d'))
             movie.insert()
 
             return jsonify({'success': True, 'movies': [movie.format()]})
@@ -84,7 +80,6 @@ def create_app(test_config=None,database_name=database_name):
     '''
         PATCH /movies/<id>
     '''
-
 
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('update:movie')
@@ -103,7 +98,8 @@ def create_app(test_config=None,database_name=database_name):
                 movie.title = body.get('title')
 
             if 'release_date' in body:
-                movie.release_date = datetime.strptime(body.get('release_date'),'%Y-%m-%d')
+                movie.release_date = datetime.strptime
+                (body.get('release_date'), '%Y-%m-%d')
 
             movie.update()
 
@@ -115,11 +111,9 @@ def create_app(test_config=None,database_name=database_name):
         except:
             abort(422)
 
-
     '''
         DELETE /movies/<id>
     '''
-
 
     @app.route('/movies/<int:movie_id>', methods=['DELETE'])
     @requires_auth('delete:movie')
@@ -142,12 +136,9 @@ def create_app(test_config=None,database_name=database_name):
 
             abort(422)
 
-
-
     '''
         GET /actors
     '''
-
 
     @app.route('/actors', methods=['GET'])
     @requires_auth('get:actors')
@@ -162,11 +153,9 @@ def create_app(test_config=None,database_name=database_name):
         except:
             abort(422)
 
-
     '''
         POST /actors
     '''
-
 
     @app.route('/actors', methods=['POST'])
     @requires_auth('post:actor')
@@ -184,8 +173,8 @@ def create_app(test_config=None,database_name=database_name):
                 abort(400)
 
             actor = Actor(name=actor_name,
-                        age=actor_age,
-                        gender=actor_gender)
+                          age=actor_age,
+                          gender=actor_gender)
             actor.insert()
 
             return jsonify({'success': True, 'actors': [actor.format()]})
@@ -195,7 +184,6 @@ def create_app(test_config=None,database_name=database_name):
     '''
         PATCH /actors/<id>
     '''
-
 
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
     @requires_auth('update:actor')
@@ -215,7 +203,7 @@ def create_app(test_config=None,database_name=database_name):
 
             if 'age' in body:
                 actor.age = body.get('age')
-            
+
             if 'gender' in body:
                 actor.gender = body.get('gender')
 
@@ -229,11 +217,9 @@ def create_app(test_config=None,database_name=database_name):
         except:
             abort(422)
 
-
     '''
         DELETE /actors/<id>
     '''
-
 
     @app.route('/actors/<int:actor_id>', methods=['DELETE'])
     @requires_auth('delete:actor')
@@ -255,51 +241,42 @@ def create_app(test_config=None,database_name=database_name):
         except:
 
             abort(422)
-            
 
-            
     # Error Handling
     '''
     implement error handlers using the @app.errorhandler(error) decorator
 
     '''
 
-
     @app.errorhandler(AuthError)
     def auth_error(error):
         return (jsonify({'success': False, 'error': error.status_code,
                 'message': error.description}), error.status_code)
-
 
     @app.errorhandler(401)
     def unauthorized(error):
         return (jsonify({'success': False, 'error': 401,
                 'message': 'Unauthorized'}), 401)
 
-
     @app.errorhandler(404)
     def not_found(error):
         return (jsonify({'success': False, 'error': 404,
                 'message': 'resources not found'}), 404)
-
 
     @app.errorhandler(422)
     def unprocessable(error):
         return (jsonify({'success': False, 'error': 422,
                 'message': 'unprocessable'}), 422)
 
-
     @app.errorhandler(400)
     def bad_request(error):
         return (jsonify({'success': False, 'error': 400,
                 'message': 'Bad Request'}), 400)
 
-
     @app.errorhandler(405)
     def not_allowed(error):
         return (jsonify({'success': False, 'error': 405,
                 'message': 'method not allowed'}), 405)
-
 
     @app.errorhandler(500)
     def internal_server_error(error):
