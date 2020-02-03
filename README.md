@@ -55,7 +55,7 @@ flask run --reload
 The `--reload` flag will detect file changes and restart the server automatically.
 
 
-To run the Test, execute:
+To run the Test (Using Python Unittest lib), execute:
 
 ```bash
 python test_app.py
